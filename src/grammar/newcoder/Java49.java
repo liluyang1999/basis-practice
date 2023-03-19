@@ -1,3 +1,5 @@
+package grammar.newcoder;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -7,10 +9,10 @@ public class Java49 {
         Scanner scanner = new Scanner(System.in);
         int start = scanner.nextInt();
         int end = scanner.nextInt();
-        method(start, end);
+        calPrimeNumber(start, end);
     }
 
-    public static void method(int start, int end) {
+    public static void calPrimeNumber(int start, int end) {
         int count = 0;
         if (start > end) {
             int temp = end;

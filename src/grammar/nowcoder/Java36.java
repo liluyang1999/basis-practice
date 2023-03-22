@@ -1,4 +1,4 @@
-package grammar.newcoder;
+package grammar.nowcoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

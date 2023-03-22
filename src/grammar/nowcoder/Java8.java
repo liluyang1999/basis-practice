@@ -1,4 +1,4 @@
-package grammar.newcoder;
+package grammar.nowcoder;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;

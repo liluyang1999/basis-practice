@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Java20 {
 
     public static void main(String[] args) {
-        Person p = new Person();
+        Java20Person p = new Java20Person();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextInt()) {
             int age = scanner.nextInt();
@@ -16,7 +16,7 @@ public class Java20 {
 
 }
 
-class Person {
+class Java20Person {
 
     private int age;
 

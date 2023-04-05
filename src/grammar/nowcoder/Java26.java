@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Java26 {
 
     public static void main(String[] args) {
-        Comparator comparator = new ComparatorImpl();
+        Java26Comparator comparator = new Java26ComparatorImpl();
 
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextInt()) {
@@ -17,7 +17,7 @@ public class Java26 {
 
 }
 
-interface Comparator {
+interface Java26Comparator {
     /**
      * 返回两个整数中的最大值
      */
@@ -25,7 +25,7 @@ interface Comparator {
 }
 
 //write your code here......
-class ComparatorImpl implements Comparator {
+class Java26ComparatorImpl implements Java26Comparator {
 
     @Override
     public int max(int x, int y) {

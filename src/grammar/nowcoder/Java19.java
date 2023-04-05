@@ -9,19 +9,19 @@ public class Java19 {
         while (scanner.hasNextInt()) {
             int x = scanner.nextInt();
             int y = scanner.nextInt();
-            Data data = new Data(x, y);
+            Java19Data data = new Java19Data(x, y);
             System.out.println(data.getX() + data.getY());
         }
     }
 
 }
 
-class Data {
+class Java19Data {
 
     private int x;
     private int y;
 
-    public Data(int x, int y) {
+    public Java19Data(int x, int y) {
         this.x = x;
         this.y = y;
     }

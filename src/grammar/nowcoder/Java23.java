@@ -20,19 +20,19 @@ public class Java23 {
 
 }
 
-class First {
+class Java23First {
     public String toString() {
         return "First";
     }
 }
 
-class Second {
+class Java23Second {
     public String toString() {
         return "Second";
     }
 }
 
-class Third {
+class Java23Third {
     public String toString() {
         return "Third";
     }

@@ -9,18 +9,18 @@ public class Java50 {
         while (scanner.hasNextDouble()) {
             double s = scanner.nextDouble();
             // Circle和Square是需要你定义的类
-            System.out.printf("%.3f%n", new Circle(s).getArea());
-            System.out.printf("%.3f%n", new Square(s).getArea());
+            System.out.printf("%.3f%n", new Java50Circle(s).getArea());
+            System.out.printf("%.3f%n", new Java50Square(s).getArea());
         }
     }
 
 }
 
-class Shape {
+class Java50Shape {
 
     private double perimeter; // 周长
 
-    public Shape(double perimeter) {
+    public Java50Shape(double perimeter) {
         this.perimeter = perimeter;
     }
 
@@ -30,14 +30,14 @@ class Shape {
 
 }
 
-interface Area {
+interface Java50Area {
     double getArea();
 }
 
 // 圆形
-class Circle extends Shape implements Area {
+class Java50Circle extends Java50Shape implements Java50Area {
 
-    public Circle(double perimeter) {
+    public Java50Circle(double perimeter) {
         super(perimeter);
     }
 
@@ -51,9 +51,9 @@ class Circle extends Shape implements Area {
 }
 
 // 方形
-class Square extends Shape implements Area {
+class Java50Square extends Java50Shape implements Java50Area {
 
-    public Square(double perimeter) {
+    public Java50Square(double perimeter) {
         super(perimeter);
     }
 

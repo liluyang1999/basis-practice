@@ -23,8 +23,8 @@ public class Java51 {
             }
         }
 
-        for (int k = 0; k < arr.length; k++) {
-            System.out.print(arr[k]+" ");
+        for (int i : arr) {
+            System.out.print(i + " ");
         }
     }
 

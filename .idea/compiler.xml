@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
       </profile>
     </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="GENERATE_NO_WARNINGS" value="true" />
+    <bytecodeTargetLevel>
+      <module name="untitled" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a93c8738-4044-435a-bffc-69fac3d008ef" name="Changes" comment="Practice for java basic grammar......">
+    <list default="true" id="a93c8738-4044-435a-bffc-69fac3d008ef" name="Changes" comment="Practice for java basic grammar......" />
+    <list id="03b899a1-6361-4e83-a8b5-6670150b65b5" name="Practice for java basic grammar......" comment="Practice for java basic grammar......&#10;&#10;(cherry picked from commit 545270f9d2f68a15b3242dfdf4a256fcbb150b8b)">
+      <changelist_data name="Luyang Li" email="liluyang1999@163.com" date="1682434588000" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/liluyang1999.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/validation.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +36,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="KEEP" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {

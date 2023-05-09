@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a782e37-a236-4bb0-a734-182f5e729ad4" name="Changes" comment="Practice for java basic grammar......" />
+    <list default="true" id="5a782e37-a236-4bb0-a734-182f5e729ad4" name="Changes" comment="Practice for java basic grammar......">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,11 +54,16 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.15937804",
-    "project.structure.side.proportion": "0.1257276",
+    "project.structure.side.proportion": "0.17325582",
     "settings.editor.selected.configurable": "MavenSettings",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "Cookie"
+    ]
   }
 }]]></component>
   <component name="RunManager">
@@ -103,7 +110,7 @@
       <updated>1683646072409</updated>
       <workItem from="1683646073388" duration="16000" />
       <workItem from="1683646102455" duration="154000" />
-      <workItem from="1683646320366" duration="362000" />
+      <workItem from="1683646320366" duration="1364000" />
     </task>
     <task id="LOCAL-00003" summary="Practice for java basic grammar......">
       <created>1683646610726</created>
@@ -112,7 +119,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683646610726</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Practice for java basic grammar......">
+      <created>1683646778147</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683646778147</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

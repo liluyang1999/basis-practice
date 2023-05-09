@@ -6,12 +6,12 @@ public class TestUtil {
 
 //    private static int[] testArr = {1,5,2,6,2,8,3,6};
 
-    private static int[] testArr = new int[100000];
+    private static int[] testArr = new int[10000];
 
     static {
         Random random = new Random();
         for (int i = 0; i < testArr.length; i++) {
-            testArr[i] = random.nextInt(100000);
+            testArr[i] = random.nextInt(10000);
         }
     }
 

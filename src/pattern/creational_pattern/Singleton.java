@@ -1,4 +1,4 @@
-package pattern;
+package pattern.creational_pattern;
 
 public class Singleton {
 

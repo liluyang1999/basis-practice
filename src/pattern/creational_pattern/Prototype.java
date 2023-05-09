@@ -1,4 +1,4 @@
-package pattern;
+package pattern.creational_pattern;
 
 import java.util.ArrayList;
 

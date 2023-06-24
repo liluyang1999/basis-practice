@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class TestUtil {
 
-//    private static int[] testArr = {1,5,2,6,2,8,3,6};
-
     private static int[] testArr = new int[10000];
 
     static {
@@ -27,9 +25,12 @@ public class TestUtil {
         String str1 = "joker";
         String str2 = "joker";
         String a = str2 + str1;
-        String b = "joker" + "joker";
+        String b = str1 + str2;
         System.out.println(a == b);
+        
+
     }
+
 }
 
 

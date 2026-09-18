@@ -48,7 +48,7 @@ class Java44Customer implements Comparable<Java44Customer>{
     //write your code here......
     @Override
     public int compareTo(Java44Customer compared) {
-        return compared.consumption - this.consumption;
+        return Integer.compare(compared.consumption, this.consumption);
     }
 
 }

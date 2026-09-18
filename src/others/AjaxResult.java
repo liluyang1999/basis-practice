@@ -3,7 +3,7 @@ package others;
 import java.io.Serial;
 import java.util.HashMap;
 
-public class AjaxResult extends HashMap<String, Object> {
+public final class AjaxResult extends HashMap<String, Object> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -15,14 +15,14 @@ public class AjaxResult extends HashMap<String, Object> {
     public static final String DATA = "data";
 
     public AjaxResult(Integer code, String msg, Object data) {
-        this.put(CODE, code);
-        this.put(MSG, msg);
-        this.put(DATA, data);
+        super.put(CODE, code);
+        super.put(MSG, msg);
+        super.put(DATA, data);
     }
 
     public AjaxResult(Integer code, String msg) {
-        this.put(CODE, code);
-        this.put(MSG, msg);
+        super.put(CODE, code);
+        super.put(MSG, msg);
     }
 
     public AjaxResult() {}

@@ -1,59 +1,60 @@
 package others;
 
-public class LeftIsHeap<AnyType extends Comparable<? super AnyType>> {
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
-    AnyType root;
+/** A leftist min-heap; merge transfers ownership and empties its argument. Not thread safe. */
+public class LeftIsHeap<T extends Comparable<? super T>> {
+    private Node<T> root;
+    private int size;
 
-    public LeftIsHeap() {
-        root = null;
+    public void merge(LeftIsHeap<T> rhs) {
+        Objects.requireNonNull(rhs);
+        if (rhs == this) return;
+        root = mergeNodes(root, rhs.root);
+        size += rhs.size;
+        rhs.makeEmpty();
     }
 
-    public void merge(LeftIsHeap<AnyType> rhs) {  }
-
-    public void insert(AnyType x) {  }
-
-    public AnyType findMin() {
-        return null;
+    public void insert(T value) {
+        root = mergeNodes(root, new Node<>(Objects.requireNonNull(value)));
+        size++;
     }
 
-    public AnyType deleteMin() { return null;}
+    public T findMin() {
+        if (isEmpty()) throw new NoSuchElementException("empty heap");
+        return root.value;
+    }
 
-    public void makeEmpty() {}
+    public T deleteMin() {
+        T minimum = findMin();
+        root = mergeNodes(root.left, root.right);
+        size--;
+        return minimum;
+    }
 
-    public boolean isEmpty() {return true;}
+    public void makeEmpty() { root = null; size = 0; }
+    public boolean isEmpty() { return root == null; }
+    public int size() { return size; }
 
-    private static class Node<AnyType> {
-
-        Node(AnyType theElement) {
-            this(theElement, null, null);
-        };
-
-        Node(AnyType theElement, Node<AnyType> lt, Node<AnyType> nt) {
-            element = theElement;
-            leftChild = lt;
-            nextSibling = nt;
+    private Node<T> mergeNodes(Node<T> a, Node<T> b) {
+        if (a == null) return b;
+        if (b == null) return a;
+        if (a.value.compareTo(b.value) > 0) { Node<T> temp = a; a = b; b = temp; }
+        a.right = mergeNodes(a.right, b);
+        if (rank(a.left) < rank(a.right)) {
+            Node<T> temp = a.left; a.left = a.right; a.right = temp;
         }
-
-        AnyType element;
-        Node<AnyType> leftChild;
-        Node<AnyType> nextSibling;
-
+        a.rank = rank(a.right) + 1;
+        return a;
     }
 
-    public static final int DEFAULT_TRESS = 1;
-    private int currentSize;
-    private Node<AnyType>[] theTrees;
-    private Node<AnyType>[] theTreeRoots;
+    private static int rank(Node<?> node) { return node == null ? -1 : node.rank; }
 
-    private Node<AnyType> combineTrees(Node<AnyType> t1, Node<AnyType> t2) {
-        if(t1.element.compareTo(t2.element) > 0) {
-            return combineTrees(t2, t1);
-        } else {
-            t2.nextSibling = t1.leftChild;
-            t1.leftChild = t2;
-            return t1;
-        }
+    private static final class Node<T> {
+        private final T value;
+        private Node<T> left, right;
+        private int rank;
+        private Node(T value) { this.value = value; }
     }
-
-
 }

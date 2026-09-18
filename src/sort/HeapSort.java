@@ -1,65 +1,27 @@
 package sort;
 
-import java.util.Arrays;
-
 public class HeapSort {
-
     public static void main(String[] args) {
-        long timestamp1 = System.currentTimeMillis();
-        HeapSort.sort(TestUtil.getTestArr());
-        long timestamp2 = System.currentTimeMillis();
-        System.out.println(Arrays.toString(TestUtil.getTestArr()));
-        System.out.println("数量：" + TestUtil.getTestArr().length);
-        System.out.println("耗时：" + (timestamp2 - timestamp1));
+        SortDemo.run("HeapSort", HeapSort::sort, args);
     }
 
     public static void sort(int[] arr) {
-        Heap heap = new Heap(arr);
-        int pos = 0;
-        while (!heap.isEmpty()) {
-            arr[pos++] = heap.popElem();
+        for (int i = arr.length / 2 - 1; i >= 0; i--) siftDown(arr, i, arr.length);
+        for (int end = arr.length - 1; end > 0; end--) {
+            int value = arr[0]; arr[0] = arr[end]; arr[end] = value;
+            siftDown(arr, 0, end);
         }
     }
-}
 
-class Heap {
-
-    private HeapNode root;
-
-    public Heap(int[] arr) {
-        this.buildHeap(arr);
-    }
-
-    private void buildHeap(int[] arr) {
-
-    }
-
-    public void addElement(int elem) {
-        this.addNode(new HeapNode());
-    }
-
-    public int popElem() {
-        return this.popNode().element;
-    }
-
-    private void addNode(HeapNode node) {
-
-    }
-
-    private HeapNode popNode() {
-        return new HeapNode();
-    }
-
-    public boolean isEmpty() {
-        return root == null;
-    }
-
-    static class HeapNode {
-        private int element;
-        private HeapNode leftChild;
-        private HeapNode rightChild;
+    private static void siftDown(int[] arr, int parent, int size) {
+        int value = arr[parent];
+        while (parent < size / 2) {
+            int child = 2 * parent + 1;
+            if (child + 1 < size && arr[child + 1] > arr[child]) child++;
+            if (value >= arr[child]) break;
+            arr[parent] = arr[child];
+            parent = child;
+        }
+        arr[parent] = value;
     }
 }
-
-
-

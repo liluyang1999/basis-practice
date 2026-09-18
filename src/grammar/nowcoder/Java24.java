@@ -8,7 +8,13 @@ public class Java24 {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
             String className = scanner.next();
-            Java24Base obj = (Java24Base) Class.forName(className).newInstance();
+            Class<? extends Java24Base> type = switch (className) {
+                case "grammar.nowcoder.Java24Base" -> Java24Base.class;
+                case "grammar.nowcoder.Java24Sub1" -> Java24Sub1.class;
+                case "grammar.nowcoder.Java24Sub2" -> Java24Sub2.class;
+                default -> throw new IllegalArgumentException("unknown exercise class: " + className);
+            };
+            Java24Base obj = type.getDeclaredConstructor().newInstance();
             System.out.println(getClassName(obj));
         }
     }

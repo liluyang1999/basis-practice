@@ -9,7 +9,13 @@ public class Java23 {
         while (scanner.hasNext()) {
             String className = scanner.nextLine();
             // print就是需要你定义的方法
-            print(Class.forName(className).newInstance());
+            Class<?> type = switch (className) {
+                case "grammar.nowcoder.Java23First" -> Java23First.class;
+                case "grammar.nowcoder.Java23Second" -> Java23Second.class;
+                case "grammar.nowcoder.Java23Third" -> Java23Third.class;
+                default -> throw new IllegalArgumentException("unknown exercise class: " + className);
+            };
+            print(type.getDeclaredConstructor().newInstance());
         }
     }
 

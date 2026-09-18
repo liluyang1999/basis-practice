@@ -33,7 +33,7 @@ public class Java46 {
             } else {
                 tax = 0.0;
             }
-            System.out.printf(name + "应该缴纳的个人所得税是：%。1f\n", tax);
+            System.out.printf(name + "应该缴纳的个人所得税是：%.1f\n", tax);
         }
     }
 

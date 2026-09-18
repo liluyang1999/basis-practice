@@ -2,7 +2,7 @@ package pattern.creational_pattern;
 
 public class Singleton {
 
-    private volatile static Singleton instance = new Singleton();
+    private volatile static Singleton instance;
 
     private Singleton() { }
 

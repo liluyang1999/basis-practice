@@ -1,196 +1,109 @@
 package others;
 
-public class PairingHeap <AnyType extends Comparable<? super AnyType>> {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-    public Node insert(Node node) {
-        if (root == null) {
-            root = node;
-        } else {
-            root = linkPair(node, root);
-        }
-        return root;
+/** Two-pass pairing min-heap with owned, live decrease-key handles. Not thread safe. */
+public class PairingHeap<T extends Comparable<? super T>> {
+    public static final class Node<T extends Comparable<? super T>> {
+        private T key;
+        private Node<T> previous, child, sibling;
+        private PairingHeap<T> owner;
+
+        public Node(T key) { this.key = Objects.requireNonNull(key); }
+        public T getKey() { return key; }
+        @Override public String toString() { return String.valueOf(key); }
     }
 
-    public void updateKey(Node x, AnyType key) throws Exception {
-        if (x.key.compareTo(key) < 0) {
-            throw new Exception("Key is not decreased!");
-        }
-        x.key = key;
-        if (x != root) {
-            Node xLeft = x.left;
-            if(xLeft.child == x) {
-                xLeft.child = x.sibling;
-            } else {
-                xLeft.sibling = x.sibling;
-            }
-            if (x.sibling != null) {
-                x.sibling.left = xLeft;
-            }
+    private Node<T> root;
+    private int size;
 
-            x.left = null;
-            x.sibling = null;
-            root = this.linkPair(x, root);
-        }
-    }
-
-    public void merge(Node rhs) {
-        if (this.root == null) {
-            this.root = rhs;
-            return;
-        }
-        if (rhs == null) return;
-        this.root = this.linkPair(root, rhs);
-    }
-
-    public Node findMin() {
-        return this.root;
-    }
-
-    public Node extractMin() {
-        Node node = this.root;
-        if (node != null) {
-            if (node.child == null) {
-                root = null;
-            } else {
-                Node firstSibling = node.child;
-                firstSibling.left = null;
-                root = mergeSubHeaps(firstSibling);
-            }
-        }
+    public Node<T> insert(Node<T> node) {
+        Objects.requireNonNull(node);
+        if (node.owner != null) throw new IllegalArgumentException("handle already belongs to a heap");
+        node.owner = this;
+        root = link(root, node);
+        size++;
         return node;
     }
 
-    private Node mergeSubHeaps(Node firstSibling) {
-        Node first = firstSibling;
-        Node second = first.sibling;
+    public Node<T> insert(T key) { return insert(new Node<>(key)); }
 
-        Node tail = first;
-        if (second != null) {
-            tail = this.linkPair(first, second);
-            first = tail.sibling;
-            if (first != null) {
-                second = first.sibling;
-            } else {
-                second = null;
-            }
-        }
-
-        while (first != null && second != null) {
-            tail = this.linkPair(first, second);
-            first = tail.sibling;
-            if (first != null) {
-                second = first.sibling;
-            } else {
-                second = null;
-            }
-        }
-
-        //从右往左
-        if (first != null) {
-            tail = first;
-        }
-
-        Node prev = tail.left;
-        while (prev != null) {
-            tail = this.linkPair(prev, tail);
-            prev = tail.left;
-        }
-        return tail;
+    public void updateKey(Node<T> node, T key) {
+        Objects.requireNonNull(node);
+        Objects.requireNonNull(key);
+        if (node.owner != this) throw new IllegalArgumentException("foreign or extracted handle");
+        if (node.key.compareTo(key) < 0) throw new IllegalArgumentException("key must not increase");
+        node.key = key;
+        if (node == root) return;
+        Node<T> previous = node.previous;
+        if (previous.child == node) previous.child = node.sibling;
+        else previous.sibling = node.sibling;
+        if (node.sibling != null) node.sibling.previous = previous;
+        node.previous = null;
+        node.sibling = null;
+        root = link(root, node);
     }
 
-    private static class Node<AnyType extends Comparable<? super AnyType>> {
-        private AnyType key;
-        private Node left;
-        private Node child;
-        private Node sibling;
-        public Node(AnyType key) {
-            this.key = key;
-        }
+    /** The legacy node-based merge accepts a detached singleton, never another heap's live root. */
+    public void merge(Node<T> rhs) { if (rhs != null) insert(rhs); }
+    public Node<T> findMin() { return root; }
+    public int size() { return size; }
+    public boolean isEmpty() { return root == null; }
 
-        @Override
-        public String toString() {
-            return String.valueOf(this.key);
+    public Node<T> extractMin() {
+        if (root == null) return null;
+        Node<T> removed = root;
+        List<Node<T>> pairs = new ArrayList<>();
+        Node<T> cursor = removed.child;
+        while (cursor != null) {
+            Node<T> first = cursor;
+            Node<T> second = first.sibling;
+            cursor = second == null ? null : second.sibling;
+            first.previous = null;
+            first.sibling = null;
+            if (second != null) { second.previous = null; second.sibling = null; }
+            pairs.add(link(first, second));
         }
+        root = null;
+        for (int i = pairs.size() - 1; i >= 0; i--) root = link(pairs.get(i), root);
+        removed.child = null;
+        removed.previous = null;
+        removed.sibling = null;
+        removed.owner = null;
+        size--;
+        return removed;
     }
 
-    private Node root;
-
-    private Node linkPair(Node first, Node second) {
-        if (second == null) return first;
-        if (first == null) return second;
-
-        if (first.key.compareTo(second.key) <= 0) {
-            first.sibling = second.sibling;
-            if (second.sibling != null) {
-                second.sibling.left = first;
-            }
-            Node firstChild = first.child;
-            first.child = second;
-            second.left = first;
-            second.sibling = firstChild;
-            if (firstChild != null) {
-                firstChild.left = second;
-            }
-            return first;
-        } else {
-            Node firstLeft = first.left;
-            second.left = firstLeft;
-            if (firstLeft != null) {
-                if (firstLeft.child == first) {
-                    firstLeft.child = second;
-                } else {
-                    firstLeft.sibling = second;
-                }
-            }
-
-            Node secondChild = second.child;
-            second.child = first;
-            first.left = second;
-            first.sibling = secondChild;
-            if (secondChild != null) {
-                secondChild.left = first;
-            }
-            return second;
-        }
+    private Node<T> link(Node<T> a, Node<T> b) {
+        if (a == null) return b;
+        if (b == null) return a;
+        if (a.key.compareTo(b.key) > 0) { Node<T> temp = a; a = b; b = temp; }
+        b.previous = a;
+        b.sibling = a.child;
+        if (a.child != null) a.child.previous = b;
+        a.child = b;
+        return a;
     }
 
     public void print() {
-        System.out.println("Pairing Heap");
-        this.print(0, this.root);
-    }
-
-    private void print(int level, Node node) {
-        for (int i = 0; i < level; i++) {
-            System.out.format(" ");
-        }
-        System.out.format("|");
-        for (int i = 0; i < level; i++) {
-            System.out.format("-");
-        }
-        System.out.format("%d%n", node.key);
-
-        Node child = node.child;
-        while (child != null) {
-            print(level + 1, child);
-            child = child.sibling;
+        System.out.println("Pairing Heap (size=" + size + ")");
+        if (root == null) return;
+        // Iterative traversal avoids a stack overflow on a deep teaching example.
+        List<Node<T>> pending = new ArrayList<>();
+        pending.add(root);
+        while (!pending.isEmpty()) {
+            Node<T> node = pending.remove(pending.size() - 1);
+            System.out.println(node.key);
+            for (Node<T> child = node.child; child != null; child = child.sibling) pending.add(child);
         }
     }
 
     public static void main(String[] args) {
-        PairingHeap<Integer> pairingHeap = new PairingHeap<>();
-        pairingHeap.insert(new Node(3));
-        pairingHeap.insert(new Node(4));
-        pairingHeap.insert(new Node(2));
-        pairingHeap.insert(new Node(8));
-        pairingHeap.insert(new Node(1));
-        pairingHeap.insert(new Node(0));
-        pairingHeap.insert(new Node(2));
-        pairingHeap.insert(new Node(3));
-        pairingHeap.insert(new Node(4));
-        pairingHeap.insert(new Node(2));
-        pairingHeap.print();
-        pairingHeap.extractMin();
-        pairingHeap.extractMin();
-        pairingHeap.print();
+        PairingHeap<Integer> heap = new PairingHeap<>();
+        heap.insert(3); Node<Integer> handle = heap.insert(8); heap.insert(1);
+        heap.updateKey(handle, 0);
+        while (!heap.isEmpty()) System.out.println(heap.extractMin());
     }
 }

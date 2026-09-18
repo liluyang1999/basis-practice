@@ -11,7 +11,8 @@ public class Java14 {
     }
 
     public static Boolean isPrimeNumber(int number) {
-        for (int i = 2; i < number; i++) {
+        if (number < 2) return false;
+        for (int i = 2; i <= number / i; i++) {
             if (number % i == 0) {
                 return false;
             }

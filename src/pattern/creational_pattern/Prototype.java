@@ -56,7 +56,7 @@ class DeepClone extends Prototype {
     public DeepClone clone() {
         System.out.println("执行了深克隆！");
         DeepClone deepClone = (DeepClone) super.clone();
-        deepClone.list = (ArrayList<String>)(this.list).clone();
+        deepClone.list = new ArrayList<>(this.list);
         return deepClone;
     }
 

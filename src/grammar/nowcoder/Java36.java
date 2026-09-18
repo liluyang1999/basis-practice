@@ -1,30 +1,22 @@
 package grammar.nowcoder;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Scanner;
 
 public class Java36 {
-
-    public static void main(String[] args) throws IOException, ParseException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String inputContent = reader.readLine();
-        String[] inputArray = inputContent.split(" ");
-        if (inputArray.length != 6) {
+    public static void main(String[] args) {
+        String input = new Scanner(System.in).nextLine();
+        try {
+            String[] parts = input.trim().split("\\s+");
+            if (parts.length != 6) throw new IllegalArgumentException();
+            int[] values = java.util.Arrays.stream(parts).mapToInt(Integer::parseInt).toArray();
+            java.time.LocalDateTime date = java.time.LocalDateTime.of(values[0], values[1], values[2], values[3], values[4], values[5]);
+            java.time.ZonedDateTime beijing = date.atZone(java.time.ZoneId.of("Asia/Shanghai"));
+            java.time.ZonedDateTime newYork = beijing.withZoneSameInstant(java.time.ZoneId.of("America/New_York"));
+            java.time.format.DateTimeFormatter format = java.time.format.DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+            System.out.println("北京时间为：" + beijing.format(format));
+            System.out.println("纽约时间为：" + newYork.format(format));
+        } catch (java.time.DateTimeException | IllegalArgumentException error) {
             System.out.println("您输入的数据不合理");
-        } else {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String dateStr = inputArray[0] + "-" + inputArray[1] + "-" + inputArray[2] + " "
-                                + inputArray[3] + ":" + inputArray[4] + ":" + inputArray[5];
-            Date beijingDate = dateFormat.parse(dateStr);
-            Date newyorkDate = new Date(beijingDate.getTime() - 12 * 60 * 60 * 1000);
-            System.out.println("北京时间为：" + dateFormat.format(beijingDate));
-            System.out.println("纽约时间为：" + dateFormat.format(newyorkDate));
         }
     }
-
 }

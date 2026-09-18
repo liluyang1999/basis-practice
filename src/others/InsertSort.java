@@ -3,79 +3,52 @@ package others;
 import java.util.Arrays;
 
 public class InsertSort {
-
     public static void main(String[] args) {
-        double[] array = {2.2, 3.0,1,8.2,9.3,4,3.1, 10, 20.0, 17, 23, 12, 9, 3, 0, 1};
-        insertSort(array);
-        System.out.println(Arrays.toString(array));
+        double[] values = {2.2, 3, 1, -0.0, Double.NaN};
+        binaryInsertSort(values);
+        System.out.println(Arrays.toString(values));
     }
 
-    public static void insertSort(double[] array) {
-        for (int i = 1; i < array.length; i++) {
-            for (int j = i; j >= 1; j--) {
-                if (array[j - 1] > array[j]) {
-                    double temp = array[j - 1];
-                    array[j - 1] = array[j];
-                    array[j] = temp;
-                } else {
-                    break;
-                }
-            }
-        }
-    }
+    public static void insertSort(double[] array) { gapInsert(array, 1); }
 
     public static void shellSort(double[] array) {
-        for (int gap = array.length / 2; gap >= 1; gap /= 2) {
-            for (int i = gap; i < array.length; i += gap) {
-                for (int j = i - gap; j >= 0; j -= gap) {
-                    if (array[j + gap] < array[j]) {
-                        double temp = array[j + gap];
-                        array[j + gap] = array[j];
-                        array[j] = temp;
-                    }
-                }
+        for (int gap = array.length / 2; gap > 0; gap /= 2) gapInsert(array, gap);
+    }
+
+    private static void gapInsert(double[] array, int gap) {
+        for (int i = gap; i < array.length; i++) {
+            double value = array[i];
+            int j = i;
+            while (j >= gap && Double.compare(array[j - gap], value) > 0) {
+                array[j] = array[j - gap]; j -= gap;
             }
+            array[j] = value;
         }
     }
 
     public static void binaryInsertSort(double[] array) {
         for (int i = 1; i < array.length; i++) {
-            int top = i;
-            int low = 0;
-            int median = (top + low) / 2;
-            while (median > top || median < low) {
-                if (array[median] == array[i]) {
-                    break;
-                }
-
-                if (array[median] > array[i]) {
-                    top = median;
-                    median = (low + top) / 2;
-                } else {
-                    low = median;
-                    median = (low + top) / 2;
-                }
+            double value = array[i];
+            int low = 0, high = i;
+            // Upper bound places equal elements after earlier ones (stable).
+            while (low < high) {
+                int mid = low + (high - low) / 2;
+                if (Double.compare(array[mid], value) <= 0) low = mid + 1;
+                else high = mid;
             }
-
-            for (int k = i; k >= median + 1; k--) {
-                double temp = array[k - 1];
-                array[k - 1] = array[k];
-                array[k] = temp;
-            }
+            System.arraycopy(array, low, array, low + 1, i - low);
+            array[low] = value;
         }
     }
 
-    public static <AnyType extends Comparable<? super AnyType>>
-    void insertSort(AnyType[] arr) {
-        //O(N2)
-        for(int i = 1; i < arr.length; i++) {
-            AnyType temp = arr[i];
-            int j;
-            for (j = i; j > 0 && arr[j].compareTo(arr[j - 1]) < 0; j--) {
-                arr[j] = arr[j - 1];
+    public static <T extends Comparable<? super T>> void insertSort(T[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            T value = arr[i];
+            int j = i;
+            while (j > 0 && value.compareTo(arr[j - 1]) < 0) {
+                arr[j] = arr[j - 1]; j--;
             }
-            arr[j] = temp;
+            arr[j] = value;
         }
     }
-
 }

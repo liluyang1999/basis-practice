@@ -1,16 +1,10 @@
 package sort;
 
-import java.util.Arrays;
 
 public class MergeSort {
 
     public static void main(String[] args) {
-        long timestamp1 = System.currentTimeMillis();
-        MergeSort.sort(TestUtil.getTestArr());
-        long timestamp2 = System.currentTimeMillis();
-        System.out.println(Arrays.toString(TestUtil.getTestArr()));
-        System.out.println("数量：" + TestUtil.getTestArr().length);
-        System.out.println("耗时：" + (timestamp2 - timestamp1) + "ms");
+        SortDemo.run("MergeSort", MergeSort::sort, args);
     }
 
     public static void sort(int[] arr) {

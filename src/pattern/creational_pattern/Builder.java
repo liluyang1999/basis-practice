@@ -3,8 +3,7 @@ package pattern.creational_pattern;
 public abstract class Builder {
 
     public static void main(String[] args) {
-        Director.setBuilder(new BuilderA());
-        Product product = Director.construct();
+        Product product = Director.construct(new BuilderA());
         System.out.println(product);
     }
 
@@ -23,10 +22,16 @@ class Director {
     private static Builder builder;
 
     public static void setBuilder(Builder builder) {
-        Director.builder = builder;
+        Director.builder = java.util.Objects.requireNonNull(builder);
     }
 
     public static Product construct() {
+        if (builder == null) throw new IllegalStateException("set a builder first");
+        return construct(builder);
+    }
+
+    public static Product construct(Builder builder) {
+        java.util.Objects.requireNonNull(builder);
         builder.buildPartA();
         builder.buildPartB();
         builder.buildPartC();
@@ -58,7 +63,11 @@ class BuilderA extends Builder {
     }
 
     public Product getProduct() {
-        return product;
+        Product snapshot = new Product();
+        snapshot.setPartA(product.getPartA());
+        snapshot.setPartB(product.getPartB());
+        snapshot.setPartC(product.getPartC());
+        return snapshot;
     }
 
 }

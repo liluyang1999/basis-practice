@@ -1,31 +1,33 @@
 package others;
 
+import java.util.Objects;
+
+/** Rotation exercise only; callers must assign the returned subtree root. */
 public class TreapNode {
-
-    private int elem;
-    private int priority;
-
+    private final int elem;
+    private final int priority;
     TreapNode lchild;
     TreapNode rchild;
 
-    TreapNode(int elem, int priority) {
-        //优先级，体现堆的特性
-        this.lchild = this.rchild = null;
+    public TreapNode(int elem, int priority) { this.elem = elem; this.priority = priority; }
+    public int getElem() { return elem; }
+    public int getPriority() { return priority; }
+
+    public TreapNode left_rotate(TreapNode node) {
+        Objects.requireNonNull(node);
+        if (node.rchild == null) throw new IllegalArgumentException("right child required");
+        TreapNode next = node.rchild;
+        node.rchild = next.lchild;
+        next.lchild = node;
+        return next;
     }
 
-    public void left_rotate(TreapNode node) {
-        TreapNode temp = node.rchild;
-        node.rchild = temp.lchild;
-        temp.lchild = node;
-        node = temp; //binded with the current node
+    public TreapNode right_rotate(TreapNode node) {
+        Objects.requireNonNull(node);
+        if (node.lchild == null) throw new IllegalArgumentException("left child required");
+        TreapNode next = node.lchild;
+        node.lchild = next.rchild;
+        next.rchild = node;
+        return next;
     }
-
-    public void right_rotate(TreapNode node) {
-        TreapNode temp = node.lchild;
-        node.lchild = temp.rchild;
-        temp.rchild = node;
-        node = temp; //now the ancestor of the node becomes the temporary element 'temp'
-    }
-
 }
-

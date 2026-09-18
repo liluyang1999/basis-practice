@@ -1,60 +1,33 @@
 package sort;
 
-import java.util.Arrays;
-
 public class QuickSort {
-
     public static void main(String[] args) {
-        long timestamp1 = System.currentTimeMillis();
-        QuickSort.sort(TestUtil.getTestArr());
-        long timestamp2 = System.currentTimeMillis();
-        System.out.println(Arrays.toString(TestUtil.getTestArr()));
-        System.out.println("数量：" + TestUtil.getTestArr().length);
-        System.out.println("耗时：" + (timestamp2 - timestamp1) + "ms");
+        SortDemo.run("QuickSort", QuickSort::sort, args);
     }
 
+    public static void sort(int[] arr) { sort(arr, 0, arr.length - 1); }
 
-    public static void sort(int[] arr) {
-        sort(arr, 0, arr.length - 1);
-    }
-
-    private static void sort(int[] arr, int leftBound, int rightBound) {
-        int pivot = leftBound;
-        int left = leftBound, right = rightBound;
-        //循环到左指针与右指针相等结束
-        while (left < right) {
-            if (left == pivot) {
-                //此时基准数在左指针
-                while (arr[right] >= arr[left] && left < right) {
-                    right--;
-                }
-                if (arr[right] < arr[pivot] && left < right) {
-                    arr[right] = arr[pivot] ^ arr[right];
-                    arr[pivot] = arr[right] ^ arr[pivot];
-                    arr[right] = arr[right] ^ arr[pivot];
-                    pivot = right;
-                    left++;
-                }
-            } else {
-                //此时基准数在右指针
-                while (arr[left] < arr[pivot] && left < right) {
-                    left++;
-                }
-                if (arr[left] >= arr[pivot] && left < right) {
-                    arr[left] = arr[pivot] ^ arr[left];
-                    arr[pivot] = arr[left] ^ arr[pivot];
-                    arr[left] = arr[left] ^ arr[pivot];
-                    pivot = left;
-                    right--;
-                }
+    private static void sort(int[] arr, int low, int high) {
+        while (low < high) {
+            int pivot = arr[low + (high - low) / 2];
+            int less = low, cursor = low, greater = high;
+            while (cursor <= greater) {
+                if (arr[cursor] < pivot) swap(arr, less++, cursor++);
+                else if (arr[cursor] > pivot) swap(arr, cursor, greater--);
+                else cursor++;
             }
-            if (left == right) {
-                sort(arr, leftBound, pivot - 1);
-                sort(arr, pivot + 1, rightBound);
+            // Recurse into the smaller side only: at most O(log n) stack frames.
+            if (less - low < high - greater) {
+                sort(arr, low, less - 1);
+                low = greater + 1;
+            } else {
+                sort(arr, greater + 1, high);
+                high = less - 1;
             }
         }
-
     }
 
+    private static void swap(int[] arr, int a, int b) {
+        int value = arr[a]; arr[a] = arr[b]; arr[b] = value;
+    }
 }
-

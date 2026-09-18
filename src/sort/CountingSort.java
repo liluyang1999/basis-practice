@@ -1,44 +1,28 @@
 package sort;
 
-import java.util.Arrays;
-
 public class CountingSort {
-
     public static void main(String[] args) {
-        long timestamp1 = System.currentTimeMillis();
-        QuickSort.sort(TestUtil.getTestArr());
-        long timestamp2 = System.currentTimeMillis();
-        System.out.println(Arrays.toString(TestUtil.getTestArr()));
-        System.out.println("数量：" + TestUtil.getTestArr().length);
-        System.out.println("耗时：" + (timestamp2 - timestamp1) + "ms");
+        SortDemo.run("CountingSort", CountingSort::sort, args);
     }
 
     public static void sort(int[] arr) {
-        int max = Arrays.stream(arr).max().getAsInt();
-        int min = Arrays.stream(arr).min().getAsInt();
-        int[] countingArr = new int[max - min + 1];
-        for (int i : arr) {
-            int diff = i - min;
-            countingArr[diff]++;
+        if (arr.length < 2) return;
+        int min = arr[0], max = arr[0];
+        for (int value : arr) {
+            min = Math.min(min, value);
+            max = Math.max(max, value);
         }
-
-        for (int i = 1; i < countingArr.length; i++) {
-            countingArr[i] = countingArr[i] + countingArr[i - 1];
+        long range = (long) max - min + 1;
+        // Counting is useful for dense ranges, not a multi-gigabyte allocation.
+        if (range > 1_000_000) {
+            HeapSort.sort(arr);
+            return;
         }
-
-        int pos = 0;
-        for (int i = 0; i < countingArr.length; i++) {
-            int count;
-            if (i == 0) {
-                count = countingArr[i];
-            } else {
-                count = countingArr[i] - countingArr[i - 1];
-            }
-
-            for (int j = 0; j < count; j++) {
-                arr[pos++] = min + i;
-            }
+        int[] counts = new int[(int) range];
+        for (int value : arr) counts[(int) ((long) value - min)]++;
+        int position = 0;
+        for (int i = 0; i < counts.length; i++) {
+            for (int count = counts[i]; count > 0; count--) arr[position++] = min + i;
         }
     }
-
 }

@@ -10,7 +10,7 @@ public class Java47 {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String inputContent = reader.readLine();
-        String[] names = inputContent.split(" ");
+        String[] names = inputContent.trim().isEmpty() ? new String[0] : inputContent.trim().split("\\s+");
         LikeTool likeTool = new LikeTool();
         for (String index : names) {
             likeTool.like(index);
@@ -19,10 +19,7 @@ public class Java47 {
     }
 
     static class LikeTool {
-        public static Set<String> users;
-        static {
-            users = new HashSet<>();
-        }
+        private final Set<String> users = new LinkedHashSet<>();
         public void like (String name) {
             if (users.contains(name)) {
                 users.remove(name);

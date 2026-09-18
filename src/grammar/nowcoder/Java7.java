@@ -19,7 +19,7 @@ public class Java7 {
         };
 
         String inputLevel = scanner.nextLine();
-        char ch = inputLevel.charAt(0);
+        char ch = inputLevel.length() == 1 ? inputLevel.charAt(0) : '\0';
         String result = map.get(ch);
         System.out.println(Objects.requireNonNullElse(result, "未知错误"));
     }

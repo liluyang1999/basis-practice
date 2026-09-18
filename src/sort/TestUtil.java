@@ -1,36 +1,18 @@
 package sort;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class TestUtil {
+    private static volatile int[] testArr = randomArray(10_000, 42);
 
-    private static int[] testArr = new int[10000];
+    public static int[] getTestArr() { return testArr.clone(); }
+    public static void setTestArr(int[] arr) { testArr = Objects.requireNonNull(arr).clone(); }
 
-    static {
-        Random random = new Random();
-        for (int i = 0; i < testArr.length; i++) {
-            testArr[i] = random.nextInt(10000);
-        }
+    public static int[] randomArray(int count, long seed) {
+        if (count < 0) throw new IllegalArgumentException("count must be nonnegative");
+        return new Random(seed).ints(count, -10_000, 10_001).toArray();
     }
 
-    public static int[] getTestArr() {
-        return testArr;
-    }
-
-    public static void setTestArr(int[] testArr) {
-        TestUtil.testArr = testArr;
-    }
-
-    public static void main(String[] args) {
-        String str1 = "joker";
-        String str2 = "joker";
-        String a = str2 + str1;
-        String b = str1 + str2;
-        System.out.println(a == b);
-        
-
-    }
-
+    public static void main(String[] args) { SortDemo.run("QuickSort", QuickSort::sort, args); }
 }
-
-

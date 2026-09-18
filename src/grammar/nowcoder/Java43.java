@@ -1,6 +1,6 @@
 package grammar.nowcoder;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,7 +9,7 @@ public class Java43 {
     public static void main(String[] args) {
         Scanner scanner  = new Scanner(System.in);
         String name = scanner.next();
-        Map<Integer, String> map = new HashMap<>();
+        Map<Integer, String> map = new LinkedHashMap<>();
         map.put(1, "Amy");
         map.put(2, "Joe");
         map.put(3, "Tom");

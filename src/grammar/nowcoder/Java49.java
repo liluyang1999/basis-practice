@@ -19,11 +19,11 @@ public class Java49 {
             end = start;
             start = temp;
         }
-        for (int i = start; i <= end; i++) {
+        for (long i = Math.max(3L, start); i <= end; i++) {
             if (i <= 2) {
                 continue;
             }
-            if (isPrimeNumber(i)) {
+            if (isPrimeNumber((int) i)) {
                 count++;
             }
         }
@@ -34,7 +34,7 @@ public class Java49 {
         if (number < 2) {
             return false;
         }
-        for (int i = 2; i * i <= number; i++) {
+        for (int i = 2; i <= number / i; i++) {
             if (number % i == 0) {
                 return false;
             }

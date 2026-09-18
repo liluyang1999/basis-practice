@@ -21,6 +21,7 @@ public class Java37 {
     }
 
     static class ScoreException extends Exception {
+        private static final long serialVersionUID = 1L;
 
         public ScoreException(String msg) {
             super(msg);

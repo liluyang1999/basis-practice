@@ -31,7 +31,7 @@ public class MergeSort {
 
         //mid两边均为子问题已排好序的数组
         while (i <= mid && j <= right) {
-            if (array[i] <= array[j]) {
+            if (Double.compare(array[i], array[j]) <= 0) {
                 temp[t++] = array[i++];
             } else {
                 temp[t++] = array[j++];

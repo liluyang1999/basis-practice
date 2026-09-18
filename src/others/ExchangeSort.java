@@ -3,49 +3,45 @@ package others;
 import java.util.Arrays;
 
 public class ExchangeSort {
-
     public static void main(String[] args) {
-        double[] array = {2.0, 3.0, 1.2, 3.4, 2.3, 8.7, 3.4, 5.6, 3.4, 4.6};
-        quickSort(array, 0, array.length - 1);
-        System.out.println(Arrays.toString(array));
+        double[] values = {2, 3, 1.2, -0.0, Double.NaN};
+        quickSort(values, 0, values.length - 1);
+        System.out.println(Arrays.toString(values));
     }
 
     public static void bubbleSort(double[] array) {
-        for (int i = 0; i < array.length - 1; i++) {
-            for (int j = 0; j < array.length - 1 - i; j++) {
-                if (array[j] > array[j + 1]) {
-                    double temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-                }
+        for (int end = array.length - 1; end > 0; end--) {
+            for (int i = 0; i < end; i++) {
+                if (Double.compare(array[i], array[i + 1]) > 0) swap(array, i, i + 1);
             }
         }
     }
 
+    /** Sort the inclusive range; (0,-1) is the valid range of an empty array. */
     public static void quickSort(double[] array, int low, int top) {
-        if (low < top) {
-            int i = low;
-            int j = top;
-            double radix = array[low];
-            while (i < j) {
-                while (i < j && array[j] > radix) {
-                    j--;
-                }
-                if (i < j) {
-                    array[i++] = array[j];
-                }
+        if (low < 0 || top >= array.length || low > top + 1) throw new IndexOutOfBoundsException();
+        quick(array, low, top);
+    }
 
-                while(i < j && array[i] < radix) {
-                    i++;
-                }
-                if (i < j) {
-                    array[j--] = array[i];
-                }
+    private static void quick(double[] arr, int low, int high) {
+        while (low < high) {
+            double pivot = arr[low + (high - low) / 2];
+            int less = low, cursor = low, greater = high;
+            while (cursor <= greater) {
+                int compared = Double.compare(arr[cursor], pivot);
+                if (compared < 0) swap(arr, less++, cursor++);
+                else if (compared > 0) swap(arr, cursor, greater--);
+                else cursor++;
             }
-            array[i] = radix;
-            quickSort(array, low, i - 1);
-            quickSort(array, i + 1, top);
+            if (less - low < high - greater) {
+                quick(arr, low, less - 1); low = greater + 1;
+            } else {
+                quick(arr, greater + 1, high); high = less - 1;
+            }
         }
     }
 
+    private static void swap(double[] arr, int a, int b) {
+        double value = arr[a]; arr[a] = arr[b]; arr[b] = value;
+    }
 }

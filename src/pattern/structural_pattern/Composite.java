@@ -54,7 +54,22 @@ class Employee {
     }
 
     public void add(Employee employee) {
+        java.util.Objects.requireNonNull(employee);
+        if (employee.contains(this)) throw new IllegalArgumentException("cycle in employee hierarchy");
+        if (subordinates.contains(employee)) throw new IllegalArgumentException("duplicate child");
         subordinates.add(employee);
+    }
+
+    private boolean contains(Employee target) {
+        java.util.Set<Employee> visited = new java.util.HashSet<>();
+        java.util.Deque<Employee> pending = new java.util.ArrayDeque<>();
+        pending.push(this);
+        while (!pending.isEmpty()) {
+            Employee current = pending.pop();
+            if (current == target) return true;
+            if (visited.add(current)) pending.addAll(current.subordinates);
+        }
+        return false;
     }
 
     public void remove(Employee employee) {
@@ -62,7 +77,7 @@ class Employee {
     }
 
     public List<Employee> getSubordinates() {
-        return this.subordinates;
+        return List.copyOf(this.subordinates);
     }
 
     @Override

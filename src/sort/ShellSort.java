@@ -1,36 +1,20 @@
 package sort;
 
-import java.util.Arrays;
-
 public class ShellSort {
-
     public static void main(String[] args) {
-        long timestamp1 = System.currentTimeMillis();
-        SelectionSort.sort(TestUtil.getTestArr());
-        long timestamp2 = System.currentTimeMillis();
-        System.out.println(Arrays.toString(TestUtil.getTestArr()));
-        System.out.println("数量：" + TestUtil.getTestArr().length);
-        System.out.println("耗时：" + (timestamp2 - timestamp1) + "ms");
+        SortDemo.run("ShellSort", ShellSort::sort, args);
     }
 
     public static void sort(int[] arr) {
-        int step = arr.length / 3;
-        while (step >= 1) {
-            for (int i = 0; i < step; i++) {
-                sort(arr, i, step);
-            }
-            step = step >> 1;
-        }
-    }
-
-    private static void sort(int[] arr, int begin, int step) {
-        for (int i = begin + step; i < arr.length; i = i + step) {
-            for (int j = i - step; j >= begin; j = j - step) {
-                if (arr[j] > arr[j + step]) {
-                    arr[j] = arr[j] ^ arr[j + step];
-                    arr[j + step] = arr[j] ^ arr[j + step];
-                    arr[j] = arr[j] ^ arr[j + step];
+        for (int gap = arr.length / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < arr.length; i++) {
+                int value = arr[i];
+                int j = i;
+                while (j >= gap && arr[j - gap] > value) {
+                    arr[j] = arr[j - gap];
+                    j -= gap;
                 }
+                arr[j] = value;
             }
         }
     }
